@@ -1,15 +1,19 @@
 import { test, expect } from '../fixtures/baseTest';
 
-test('Create Genre', async ({ genres }) => {
-    const genre = await genres.create({ name: 'Action' });
-    const body = await genre.json()
-    expect(body.name).toBe('Action');
-})
+test.describe('Create Genre scenarios', () => {
+    test('Create Genre Happy Path', async ({ genres }) => {
+        const genre = await genres.create({ name: 'Action' });
+        const body = await genre.json()
+        expect(genre.status()).toBe(201);
+        expect(body.name).toBe('Action');
+    })
 
-test('Get Genres', async ({ genres }) => {
-    const genresList = await genres.getAll();
-    const genresBody = await genresList.json();
-    expect(genresBody.length).toBeGreaterThan(100);
+     test('Create Genre without Name(Mandatory)', async ({ genres }) => {
+        const genre = await genres.create({ name: '' });
+        const body = await genre.json()
+        expect(genre.status()).toBe(400);
+        expect(body.name).toBe('The genre name cannot be empty or null.');
+    })
 })
 
 test.describe('Get Genres test Cases', () => {
