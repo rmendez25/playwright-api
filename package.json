@@ -1,0 +1,23 @@
+{
+  "name": "playwright-api",
+  "version": "1.0.0",
+  "description": "This is a project for a playwright framework focused on API testing",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmendez25/playwright-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rmendez25/playwright-api/issues"
+  },
+  "homepage": "https://github.com/rmendez25/playwright-api#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0"
+  }
+}
