@@ -8,7 +8,7 @@ test.describe('Create Genre scenarios', () => {
         expect(body.name).toBe('Action');
     })
 
-     test('Create Genre without Name(Mandatory)', async ({ genres }) => {
+    test('Create Genre without Name(Mandatory)', async ({ genres }) => {
         const genre = await genres.create({ name: '' });
         const body = await genre.json()
         expect(genre.status()).toBe(400);
@@ -43,4 +43,39 @@ test.describe('Get Genres test Cases', () => {
         const genresBody = await genresList.json();
         expect(genresBody.length).toBeGreaterThan(1);
     })
+})
+
+test.describe('Update Genres Scenararios', () => {
+
+    let body: any = null;
+
+    test.beforeEach(async ({ genres }) => {
+        const genre = await genres.create({ name: 'Comedy' });
+        body = await genre.json();
+    })
+
+    test('Update Genre Happy Path', async ({ genres }) => {
+        const updatedGenre = await genres.update(body.id, { name: "Genre Updated" });
+        const response = await updatedGenre.json();
+        expect(updatedGenre.status()).toBe(200);
+        expect(response.name).toBe('Genre Updated');
+    })
+
+    test('Update Genre with invalid ID', async ({ genres }) => {
+        const invalidId = 198929;
+        const updatedGenre = await genres.update(invalidId, { name: "Invalid update" })
+        const response = await updatedGenre.json();
+        expect(updatedGenre.status()).toBe(404);
+        expect(response.error).toBe('Not Found');
+        expect(response.message).toBe(`Genre with the ID: ${invalidId} not found!`);
+    })
+
+    test('Update Genre with empty name', async ({ genres }) => {
+        const invalidId = 198929;
+        const updatedGenre = await genres.update(invalidId, { name: "" })
+        const response = await updatedGenre.json();
+        expect(updatedGenre.status()).toBe(400);
+        expect(response.name).toBe('The genre name cannot be empty or null.');
+    })
+
 })
